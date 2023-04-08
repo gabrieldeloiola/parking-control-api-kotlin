@@ -11,9 +11,20 @@ class ParkingSpotService(
 ) {
 
     @Transactional
-    fun save(parkingSpotModel: ParkingSpotModel): ParkingSpotModel{
+    fun save(parkingSpotModel: ParkingSpotModel): ParkingSpotModel {
         return parkingSpotRepository.save(parkingSpotModel)
     }
 
+    fun existsByLicencePlateCar(licensePlateCar: String): Boolean {
+        return parkingSpotRepository.existsByLicensePlateCar(licensePlateCar)
+    }
+
+    fun existsByParkingSpotNumber(parkingSpotNumber: String): Boolean {
+        return parkingSpotRepository.existsByParkingSpotNumber(parkingSpotNumber)
+    }
+
+    fun existsByApartmentAndBlock(apartment: String, block: String): Boolean {
+        return parkingSpotRepository.existsByApartmentAndBlock(apartment, block)
+    }
 
 }

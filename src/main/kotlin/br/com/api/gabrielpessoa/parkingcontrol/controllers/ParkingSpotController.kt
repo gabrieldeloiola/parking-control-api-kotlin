@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.io.Serializable
 import java.time.LocalDateTime
 import java.time.ZoneId
 
@@ -22,9 +23,21 @@ class ParkingSpotController(
 ) {
 
     @PostMapping
-    fun saveParkingSpot(@RequestBody @Valid parkingSpotModel: ParkingSpotModel): ResponseEntity<ParkingSpotModel> {
+    fun saveParkingSpot(@RequestBody @Valid parkingSpotModel: ParkingSpotModel): ResponseEntity<out Serializable> {
+
+        if (parkingSpotService.existsByLicencePlateCar(parkingSpotModel.licensePlateCar)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: License Plate Car is already in use!")
+        }
+        if (parkingSpotService.existsByParkingSpotNumber(parkingSpotModel.parkingSpotNumber)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Parking Spot is already in use!")
+        }
+        if (parkingSpotService.existsByApartmentAndBlock(parkingSpotModel.apartment, parkingSpotModel.block)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body("Conflict: Parking Spot already registered for this apartment/block!")
+        }
         parkingSpotModel.registrationDate = LocalDateTime.now(ZoneId.of("UTC"))
-        return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpotModel)
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+            parkingSpotService.save(parkingSpotModel)
         )
     }
 }

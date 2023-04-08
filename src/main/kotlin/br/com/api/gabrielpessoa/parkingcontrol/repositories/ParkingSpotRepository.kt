@@ -7,4 +7,10 @@ import java.util.UUID
 
 @Repository
 interface ParkingSpotRepository : JpaRepository<ParkingSpotModel, UUID> {
+
+    fun existsByLicensePlateCar(licencePlateCar: String): Boolean
+
+    fun existsByParkingSpotNumber(parkinSpotNumber: String): Boolean
+
+    fun existsByApartmentAndBlock(apartament: String, block: String):Boolean
 }
