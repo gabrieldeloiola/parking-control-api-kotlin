@@ -3,7 +3,11 @@ package br.com.api.gabrielpessoa.parkingcontrol.services
 import br.com.api.gabrielpessoa.parkingcontrol.domain.models.ParkingSpotModel
 import br.com.api.gabrielpessoa.parkingcontrol.repositories.ParkingSpotRepository
 import jakarta.transaction.Transactional
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import java.util.Optional
+import java.util.UUID
 
 @Service
 class ParkingSpotService(
@@ -25,6 +29,19 @@ class ParkingSpotService(
 
     fun existsByApartmentAndBlock(apartment: String, block: String): Boolean {
         return parkingSpotRepository.existsByApartmentAndBlock(apartment, block)
+    }
+
+    fun findAll(pageable: Pageable): Page<ParkingSpotModel> {
+        return parkingSpotRepository.findAll(pageable)
+    }
+
+    fun findById(id: UUID): Optional<ParkingSpotModel> {
+        return parkingSpotRepository.findById(id)
+    }
+
+    @Transactional
+    fun delete(parkingSpotModel: ParkingSpotModel) {
+        parkingSpotRepository.delete(parkingSpotModel)
     }
 
 }
