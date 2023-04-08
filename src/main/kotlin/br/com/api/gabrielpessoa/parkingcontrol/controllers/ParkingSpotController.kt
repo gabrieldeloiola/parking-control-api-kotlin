@@ -38,7 +38,7 @@ class ParkingSpotController(
             return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body("Conflict: Parking Spot already registered for this apartment/block!")
         }
-        parkingSpotModel.registrationDate = LocalDateTime.now(ZoneId.of("UTC"))
+        parkingSpotModel.registrationDate = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"))
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(parkingSpotService.save(parkingSpotModel))
     }
@@ -83,6 +83,4 @@ class ParkingSpotController(
         }
         return ResponseEntity.status(HttpStatus.OK).body(parkingSpotService.save(parkingSpotModel))
     }
-
-
 }
