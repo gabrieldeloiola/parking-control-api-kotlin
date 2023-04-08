@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDateTime
+import java.time.ZoneId
 import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 
@@ -24,10 +25,10 @@ class ParkingSpotController(
 ) {
 
     @PostMapping
-    fun saveParkingSpot(@RequestBody @Valid parkingSpotDto: ParkingSpotDto): ResponseEntity<JvmType.Object> {
+    fun saveParkingSpot(@RequestBody @Valid parkingSpotDto: ParkingSpotDto): ResponseEntity<ParkingSpotModel> {
         val parkingSpotModel = ParkingSpotModel()
         BeanUtils.copyProperties(parkingSpotDto, parkingSpotModel)
-        parkingSpotModel.registrationDate = LocalDateTime.now()
+        parkingSpotModel.registrationDate = LocalDateTime.now(ZoneId.of("UTC"))
         return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpotModel)
 
             //TODO - Criar o "save" no service.
