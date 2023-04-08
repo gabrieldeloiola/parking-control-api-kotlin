@@ -31,7 +31,6 @@ class ParkingSpotController(
         parkingSpotModel.registrationDate = LocalDateTime.now(ZoneId.of("UTC"))
         return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpotModel)
 
-            //TODO - Criar o "save" no service.
         )
     }
 }
