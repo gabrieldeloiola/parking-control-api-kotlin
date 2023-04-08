@@ -12,5 +12,5 @@ interface ParkingSpotRepository : JpaRepository<ParkingSpotModel, UUID> {
 
     fun existsByParkingSpotNumber(parkinSpotNumber: String): Boolean
 
-    fun existsByApartmentAndBlock(apartament: String, block: String):Boolean
+    fun existsByApartmentAndBlock(apartament: String, block: String): Boolean
 }
